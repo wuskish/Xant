@@ -59,19 +59,34 @@ python xant.py
 
 ---
 
-## ⚙️ Configuration
+## ⚙️ Configuration & First Launch
 
-Before launching **Xant**, you need to obtain your Telegram API credentials and configure your environment variables.
+Xant features an interactive initial setup. You don't need to manually create or edit any environment files before running the project.
 
 ### 1. Get Your API Credentials
 
-1. Log in to your Telegram account at [my.telegram.org](https://my.telegram.org).
-2. Navigate to **API Development Tools**.
+1. Log in with your Telegram phone number at [my.telegram.org](https://my.telegram.org).
+2. Go to **API development tools**.
 3. Create a new application (fill in any title and short name, e.g., `XantApp`).
-4. Copy & paste your **`api_id`** and **`api_hash`** in:
+4. Copy your **`api_id`** and **`api_hash`**.
+
+---
+
+### 2. Run Initial Setup
+
+Start the userbot using Python:
+
 ```bash
-API_ID = YOUR APP_ID HERE
-API_HASH = "YOUR API_HASH HERE"
+python main.py
+```
+On your first run, Xant will prompt you to enter your API credentials directly in the terminal:
+```bash
+==================================================
+🚀 Welcome to Xant Userbot Setup!
+Get your API credentials from https://my.telegram.org
+==================================================
+Enter your TELEGRAM_API_ID:
+Enter your TELEGRAM_API_HASH:
 ```
 
 ---
