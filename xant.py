@@ -2,11 +2,30 @@ import os
 import re
 import time
 import asyncio
+from dotenv import load_dotenv
 from telethon import TelegramClient, events
-from telethon.errors import RPCError
 
-API_ID = YOUR APP_ID HERE
-API_HASH = "YOUR API_HASH HERE"
+ENV_FILE = ".env"
+
+if not os.path.exists(ENV_FILE):
+    print("==================================================")
+    print("🚀 Welcome to Xant Userbot Setup!")
+    print("Get your API credentials from https://my.telegram.org")
+    print("==================================================\n")
+
+    api_id_input = input("Enter your TELEGRAM_API_ID: ").strip()
+    api_hash_input = input("Enter your TELEGRAM_API_HASH: ").strip()
+
+    with open(ENV_FILE, "w", encoding="utf-8") as f:
+        f.write(f"TELEGRAM_API_ID={api_id_input}\n")
+        f.write(f"TELEGRAM_API_HASH={api_hash_input}\n")
+
+    print("\n✅ Configuration saved to .env file!\n")
+
+load_dotenv()
+
+API_ID = int(os.getenv("TELEGRAM_API_ID"))
+API_HASH = os.getenv("TELEGRAM_API_HASH")
 
 client = TelegramClient(
     "user_session",
