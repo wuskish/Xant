@@ -36,7 +36,7 @@ Simply forward or paste post links into your **Saved Messages**, and **Xant** wi
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/wuskish/xant
+git clone https://github.com/wuskish/xant.git
 cd Xant
 ```
 ### 2. Install Dependencies
@@ -51,7 +51,7 @@ python xant.py
 ```bash
 pkg update && pkg upgrade -y
 pkg install python git -y
-git clone https://github.com/wuskish/xant
+git clone https://github.com/wuskish/xant.git
 cd Xant
 pip install -r requirements.txt
 python xant.py
