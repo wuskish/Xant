@@ -77,7 +77,7 @@ Xant features an interactive initial setup. You don't need to manually create or
 Start the userbot using Python:
 
 ```bash
-python main.py
+python xant.py
 ```
 On your first run, Xant will prompt you to enter your API credentials directly in the terminal:
 ```bash
