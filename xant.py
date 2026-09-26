@@ -9,7 +9,7 @@ ENV_FILE = ".env"
 
 if not os.path.exists(ENV_FILE):
     print("==================================================")
-    print("🚀 Welcome to Xant Userbot Setup!")
+    print("🚀 Welcome to Xant Setup!")
     print("Get your API credentials from https://my.telegram.org")
     print("==================================================\n")
 
@@ -24,8 +24,13 @@ if not os.path.exists(ENV_FILE):
 
 load_dotenv()
 
-API_ID = int(os.getenv("TELEGRAM_API_ID"))
-API_HASH = os.getenv("TELEGRAM_API_HASH")
+try:
+    API_ID = int(os.getenv("TELEGRAM_API_ID"))
+    API_HASH = os.getenv("TELEGRAM_API_HASH")
+except (TypeError, ValueError):
+    print("❌ Error: Invalid TELEGRAM_API_ID in .env file (must contain only digits).")
+    print("Please delete the .env file and restart the script.")
+    exit(1)
 
 client = TelegramClient(
     "user_session",
@@ -105,6 +110,7 @@ async def handle_saved_messages(event):
                 except Exception:
                     pass
 
+        filename = None
         try:
             await status_msg.edit(
                 f"⏳ **Processing [{index}/{total_count}]**\n"
@@ -122,26 +128,31 @@ async def handle_saved_messages(event):
 
             filename = await download_with_retry(target_msg, progress_callback)
 
-            await status_msg.edit(
-                f"📤 **[{index}/{total_count}]** Sending file to Saved Messages..."
-            )
-
-            await client.send_file("me", filename)
-
-            if os.path.exists(filename):
-                os.remove(filename)
+            if filename:
+                await status_msg.edit(
+                    f"📤 **[{index}/{total_count}]** Sending file to Saved Messages..."
+                )
+                await client.send_file("me", filename)
 
         except Exception as e:
             await event.respond(
                 f"❌ **[{index}/{total_count}]** Error processing `{full_link}`:\n`{e}`"
             )
+        finally:
+            if filename and os.path.exists(filename):
+                os.remove(filename)
 
     await status_msg.edit(
         f"✅ **All links processed! ({total_count}/{total_count})**"
     )
 
 
-print("🚀 Xant started and ready to process links...")
+async def main():
+    print("⏳ Connecting to Telegram...")
+    await client.start()
+    print("\n🚀 Xant started and ready! Send a link to Saved Messages.")
+    await client.run_until_disconnected()
 
-with client:
-    client.run_until_disconnected()
+
+if __name__ == "__main__":
+    client.loop.run_until_complete(main())
